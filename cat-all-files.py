@@ -147,12 +147,12 @@ def traverse_and_read(directory: Path, *, ignore_set, copy_clipboard=False, only
 
 def print_summary():
     print(f"\n{Fore.GREEN}✅ Done.")
-    print(f"Files read: {summary['files_read']}")
-    print(f"Lines: {summary['lines_read']}")
-    print(f"Size: {human_readable_size(summary['bytes_read'])}")
-    print(f"Extension breakdown:")
+    print(f"{Fore.GREEN}Files read: {summary['files_read']}")
+    print(f"{Fore.GREEN}Lines: {summary['lines_read']}")
+    print(f"{Fore.GREEN}Size: {human_readable_size(summary['bytes_read'])}")
+    print(f"{Fore.GREEN}Extension breakdown:")
     for ext, count in sorted(summary["extensions"].items(), key=lambda x: x[0]):
-        print(f"  {ext}: {count} file(s){Style.RESET_ALL}")
+        print(f"{Fore.GREEN}  {ext}: {count} file(s){Style.RESET_ALL}")
 
 def main():
     parser = argparse.ArgumentParser(description="📂 Recursively print, filter, and optionally copy file contents.")
