@@ -21,6 +21,16 @@ summary = {
     "extensions": {}
 }
 
+def human_readable_size(size_bytes):
+    if size_bytes < 1024:
+        return f"{size_bytes} B"
+    elif size_bytes < 1024 ** 2:
+        return f"{size_bytes / 1024:.2f} KB"
+    elif size_bytes < 1024 ** 3:
+        return f"{size_bytes / (1024 ** 2):.2f} MB"
+    else:
+        return f"{size_bytes / (1024 ** 3):.2f} GB"
+
 def is_binary_file(path: Path, chunk_size: int = 1024) -> bool:
     try:
         with open(path, 'rb') as f:
@@ -79,7 +89,7 @@ def print_file_contents(file_path: Path, *, copy_clipboard=False, verbose=False,
             ext = file_path.suffix.lower() or '[no-ext]'
             summary["extensions"][ext] = summary["extensions"].get(ext, 0) + 1
 
-            print(f"\n{Fore.CYAN}--- {file_path} ({lines} lines, {size_mb:.2f} MB) ---{Style.RESET_ALL}")
+            print(f"\n{Fore.CYAN}--- {file_path} ({lines} lines, {human_readable_size(size_bytes)}) ---{Style.RESET_ALL}")
             print(contents)
 
             if logger:
@@ -139,7 +149,7 @@ def print_summary():
     print(f"\n{Fore.GREEN}✅ Done.")
     print(f"Files read: {summary['files_read']}")
     print(f"Lines: {summary['lines_read']}")
-    print(f"Size: {summary['bytes_read'] / 1024 / 1024:.2f} MB")
+    print(f"Size: {human_readable_size(summary['bytes_read'])}")
     print(f"Extension breakdown:")
     for ext, count in sorted(summary["extensions"].items(), key=lambda x: x[0]):
         print(f"  {ext}: {count} file(s){Style.RESET_ALL}")
